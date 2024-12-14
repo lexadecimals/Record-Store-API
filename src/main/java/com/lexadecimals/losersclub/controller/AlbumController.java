@@ -27,7 +27,10 @@ public class AlbumController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<HttpStatus> getAlbumById(@PathVariable Long id) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Album> getAlbumById(@PathVariable Long id) {
+        return albumServiceImpl.getAlbumById(id)
+                .map(album -> new ResponseEntity<>(album, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+
     }
 }

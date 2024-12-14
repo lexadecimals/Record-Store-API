@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.assertj.MockMvcTester;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -40,11 +39,13 @@ class AlbumControllerTest {
 
     @Autowired
     private MockMvc mockMvcController;
+    private ObjectMapper mapper;
 
 
     @BeforeEach
     void setUp() {
         mockMvcController = MockMvcBuilders.standaloneSetup(albumControllerMock).build();
+        mapper = new ObjectMapper();
 
         Album testAlbum1 = createTestAlbum1();
         Album testAlbum2 = createTestAlbum2();
@@ -55,13 +56,27 @@ class AlbumControllerTest {
     }
     @Test
     @DisplayName("GET /albums/{id} responds with status code of 200 if found")
-    void getAlbumByIdTest() throws Exception {
+    void getAlbumByIdTest_status200() throws Exception {
         //TODO: research option.ofnullable
         when(albumServiceImplMock.getAlbumById(2L)).thenReturn(Optional.of(albums.get(1)));
 
         this.mockMvcController.perform(
                 MockMvcRequestBuilders.get("/albums/{id}", 2L))
                 .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @DisplayName("GET /albums/{id} responds with album if found")
+    void getAlbumByIdTest_returnsAlbum() throws Exception {
+        //TODO: research option.ofnullable
+        when(albumServiceImplMock.getAlbumById(3L)).thenReturn(Optional.of(albums.get(2)));
+
+        this.mockMvcController.perform(
+                MockMvcRequestBuilders.get("/albums/{id}", 3L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.artist").value("The Cure"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.genre").value("Alternative Rock")
+        );
+
     }
 }
 
