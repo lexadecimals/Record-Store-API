@@ -76,8 +76,8 @@ class AlbumControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.artist").value("The Cure"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.genre").value("Alternative Rock")
         );
-
     }
+
 }
 
 

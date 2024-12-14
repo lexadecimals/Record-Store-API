@@ -53,7 +53,23 @@ class AlbumServiceImplTest {
         Optional<Album> album = Optional.of(albums.getFirst());
 
         when(albumRepositoryMock.findById(1L)).thenReturn(album);
-        Optional<Album>  actualResult = albumServiceImpl.getAlbumById(2L);
+        Optional<Album>  actualResult = albumServiceImpl.getAlbumById(1L);
+        assert(actualResult.equals(album));
+    }
+
+    @Test
+    @DisplayName("POST /albums adds album to database - returns saved album")
+    void addAlbum_Test() {
+        Album album = albums.get(1);
+        when(albumRepositoryMock.save(album)).thenReturn(album);
+        Album actualResult = albumServiceImpl.addAlbum(album);
         assert(actualResult.equals(album));
     }
 }
+
+
+
+
+
+
+

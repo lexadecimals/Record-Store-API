@@ -6,10 +6,7 @@ import com.lexadecimals.losersclub.service.AlbumServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/albums")
@@ -31,6 +28,11 @@ public class AlbumController {
         return albumServiceImpl.getAlbumById(id)
                 .map(album -> new ResponseEntity<>(album, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-
     }
+
+    @PostMapping()
+    public ResponseEntity<HttpStatus> addAlbum(@RequestBody Album album) {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
