@@ -27,7 +27,7 @@ public class AlbumController {
     }
 
     @GetMapping("/{id}")
-    public void getAlbumById(@PathVariable Long id) {
-
+    public ResponseEntity<HttpStatus> getAlbumById(@PathVariable Long id) {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
