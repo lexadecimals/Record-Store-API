@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import static com.lexadecimals.losersclub.TestDataUtil.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@DataJpaTest
 class AlbumServiceImplTest {
     List<Album> albums = new ArrayList<>();
 
@@ -25,7 +27,7 @@ class AlbumServiceImplTest {
     AlbumServiceImpl albumServiceImpl;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         Album testAlbum1 = createTestAlbum1();
         Album testAlbum2 = createTestAlbum2();
         Album testAlbum3 = createTestAlbum3();
@@ -37,11 +39,10 @@ class AlbumServiceImplTest {
     @Test
     @DisplayName("GET /albums returns all albums from the database")
     void getAllAlbumsTest() {
+        Iterable<Album> iterableAlbums = albums;
 
-        when(albumRepositoryMock.findAll()).thenReturn(albums);
-
+        when(albumRepositoryMock.findAll()).thenReturn(iterableAlbums);
         Iterable<Album> actualResult = albumServiceImpl.getAllAlbums();
-
         assert(actualResult.equals(albums));
     }
 }
