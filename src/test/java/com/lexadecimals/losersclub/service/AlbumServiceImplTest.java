@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.lexadecimals.losersclub.TestDataUtil.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,5 +45,15 @@ class AlbumServiceImplTest {
         when(albumRepositoryMock.findAll()).thenReturn(iterableAlbums);
         Iterable<Album> actualResult = albumServiceImpl.getAllAlbums();
         assert(actualResult.equals(albums));
+    }
+
+    @Test
+    @DisplayName("GET /albums{id} returns correct Album from database")
+    void getAlbumByIdTest() {
+        Optional<Album> album = Optional.of(albums.getFirst());
+
+        when(albumRepositoryMock.findById(1L)).thenReturn(album);
+        Optional<Album>  actualResult = albumServiceImpl.getAlbumById(2L);
+        assert(actualResult.equals(album));
     }
 }

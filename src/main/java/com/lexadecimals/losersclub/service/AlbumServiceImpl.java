@@ -5,6 +5,8 @@ import com.lexadecimals.losersclub.repository.AlbumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AlbumServiceImpl implements AlbumService {
 
@@ -14,5 +16,10 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public Iterable<Album> getAllAlbums() {
         return albumRepository.findAll();
+    }
+
+    @Override
+    public Optional<Album> getAlbumById(Long id) {
+        return albumRepository.findById(id);
     }
 }
