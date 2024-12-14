@@ -80,14 +80,16 @@ class AlbumControllerTest {
     }
 
     @Test
-    @DisplayName("Post /albums/ returns status 200")
-    void postAlbumTest_status200() throws Exception {
+    @DisplayName("Post /albums/ returns status 201")
+    void postAlbumTest_status201() throws Exception {
         Album album = albums.getFirst();
         when(albumServiceImplMock.addAlbum(album)).thenReturn(albums.getFirst());
 
         this.mockMvcController.perform(
-                MockMvcRequestBuilders.post("/albums/"))
-                        .andExpect(MockMvcResultMatchers.status().isOk()
+                MockMvcRequestBuilders.post("/albums")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(albums.getFirst())))
+                        .andExpect(MockMvcResultMatchers.status().isCreated()
         );
 
     }

@@ -31,8 +31,9 @@ public class AlbumController {
     }
 
     @PostMapping()
-    public ResponseEntity<HttpStatus> addAlbum(@RequestBody Album album) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Album> addAlbum(@RequestBody Album album) {
+        Album albumReturnedFromSave = albumServiceImpl.addAlbum(album);
+        return new ResponseEntity<>(albumReturnedFromSave, HttpStatus.CREATED);
     }
 
 }
