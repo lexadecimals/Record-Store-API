@@ -5,6 +5,7 @@ import com.lexadecimals.losersclub.repository.AlbumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -27,4 +28,18 @@ public class AlbumServiceImpl implements AlbumService {
     public Album addAlbum(Album album) {
         return albumRepository.save(album);
     }
+
+    @Override
+    public Album updateAlbum(Long id, Album albumToUpdate) {
+        return albumRepository.findById(id)
+                .map(album -> {
+                    album.setTitle(albumToUpdate.getTitle());
+                    album.setArtist(albumToUpdate.getArtist());
+                    album.setGenre(albumToUpdate.getGenre());
+                    album.setPrice(albumToUpdate.getPrice());
+                    album.setYearOfRelease(albumToUpdate.getYearOfRelease());
+                    return albumRepository.save(album);
+                }).orElseThrow(NoSuchElementException::new);
+    }
+
 }

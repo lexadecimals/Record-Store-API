@@ -62,7 +62,7 @@ class AlbumControllerTest {
         when(albumServiceImplMock.getAlbumById(2L)).thenReturn(Optional.of(albums.get(1)));
 
         this.mockMvcController.perform(
-                MockMvcRequestBuilders.get("/albums/{id}", 2L))
+                MockMvcRequestBuilders.get("/api/v1/albums/{id}", 2L))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
@@ -73,20 +73,20 @@ class AlbumControllerTest {
         when(albumServiceImplMock.getAlbumById(3L)).thenReturn(Optional.of(albums.get(2)));
 
         this.mockMvcController.perform(
-                MockMvcRequestBuilders.get("/albums/{id}", 3L))
+                MockMvcRequestBuilders.get("/api/v1/albums/{id}", 3L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.artist").value("The Cure"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.genre").value("Alternative Rock")
         );
     }
 
     @Test
-    @DisplayName("Post /albums/ returns status 201")
+    @DisplayName("Post /api/v1/albums/ returns status 201")
     void postAlbumTest_status201() throws Exception {
         Album album = albums.getFirst();
         when(albumServiceImplMock.addAlbum(album)).thenReturn(albums.getFirst());
 
         this.mockMvcController.perform(
-                MockMvcRequestBuilders.post("/albums")
+                MockMvcRequestBuilders.post("/api/v1/albums")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(albums.getFirst())))
                         .andExpect(MockMvcResultMatchers.status().isCreated()

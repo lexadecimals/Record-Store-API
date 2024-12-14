@@ -43,8 +43,8 @@ class AlbumServiceImplTest {
         Iterable<Album> iterableAlbums = albums;
 
         when(albumRepositoryMock.findAll()).thenReturn(iterableAlbums);
-        Iterable<Album> actualResult = albumServiceImpl.getAllAlbums();
-        assert(actualResult.equals(albums));
+        Iterable<Album> result = albumServiceImpl.getAllAlbums();
+        assert(result.equals(albums));
     }
 
     @Test
@@ -53,18 +53,31 @@ class AlbumServiceImplTest {
         Optional<Album> album = Optional.of(albums.getFirst());
 
         when(albumRepositoryMock.findById(1L)).thenReturn(album);
-        Optional<Album>  actualResult = albumServiceImpl.getAlbumById(1L);
-        assert(actualResult.equals(album));
+        Optional<Album>  result = albumServiceImpl.getAlbumById(1L);
+        assert(result.equals(album));
     }
 
     @Test
-    @DisplayName("POST /albums adds album to database - returns saved album")
-    void addAlbum_Test() {
+    @DisplayName("POST /albums adds album to database - returns album")
+    void addAlbumTest() {
         Album album = albums.get(1);
         when(albumRepositoryMock.save(album)).thenReturn(album);
-        Album actualResult = albumServiceImpl.addAlbum(album);
-        assert(actualResult.equals(album));
+        Album result = albumServiceImpl.addAlbum(album);
+        assert(result.equals(album));
     }
+//
+//    @Test
+//    @DisplayName("PUT /{id} returns updated Album")
+//    void updateAlbumTest() {
+//
+//        Album albumUpdates = albums.get(1);
+//        albumUpdates.setTitle("Five Leaves Left");
+//        albumUpdates.setYearOfRelease(1969);
+//        albumRepositoryMock.save(albums.get(1));
+//        when(albumRepositoryMock.save(albumUpdates)).thenReturn(albumUpdates);
+//        Album result = albumServiceImpl.updateAlbum(1L, albumUpdates);
+//        assert(result.equals(albumUpdates));
+//    }
 }
 
 
