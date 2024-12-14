@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/albums")
 public class AlbumController {
@@ -23,6 +21,7 @@ public class AlbumController {
     public ResponseEntity<Iterable<Album>> getAllAlbums() {
         // TODO: customise response for empty list
         Iterable<Album> allAlbums = albumServiceImpl.getAllAlbums();
+
         return new ResponseEntity<>(allAlbums, HttpStatus.OK);
     }
 }
