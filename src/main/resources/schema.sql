@@ -1,5 +1,4 @@
 DROP TABLE if EXISTS albums;
-DROP TABLE if EXISTS STOCK;
 
 CREATE TABLE albums (
     id serial PRIMARY KEY,
