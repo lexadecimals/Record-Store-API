@@ -65,20 +65,22 @@ class AlbumServiceImplTest {
         Album result = albumServiceImpl.addAlbum(album);
         assert(result.equals(album));
     }
-//
+
 //    @Test
 //    @DisplayName("PUT /{id} returns updated Album")
 //    void updateAlbumTest() {
-//
+//        Album existingAlbum = albums.getLast();
 //        Album albumUpdates = albums.get(1);
 //        albumUpdates.setTitle("Five Leaves Left");
 //        albumUpdates.setYearOfRelease(1969);
-//        albumRepositoryMock.save(albums.get(1));
+//        when(albumRepositoryMock.save(existingAlbum)).thenReturn(existingAlbum);
 //        when(albumRepositoryMock.save(albumUpdates)).thenReturn(albumUpdates);
 //        Album result = albumServiceImpl.updateAlbum(1L, albumUpdates);
-//        assert(result.equals(albumUpdates));
+//        assertEquals(result.getId(), 1L);
 //    }
 }
+
+//method is working but test is not
 
 
 

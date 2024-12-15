@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.NoSuchElementException;
+
 @RestController
 @RequestMapping("api/v1/albums")
 public class AlbumController {
@@ -42,8 +44,14 @@ public class AlbumController {
             @PathVariable Long id,
             @RequestBody Album album
             ) {
-        Album updatedAlbum = albumServiceImpl.updateAlbum(id, album);
-        return new ResponseEntity<>(updatedAlbum, HttpStatus.OK);
+        try {
+            Album updatedAlbum = albumServiceImpl.updateAlbum(id, album);
+            return new ResponseEntity<>(updatedAlbum, HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Not Found", "Album with id of " + id.toString() + " Not Found!");
+            return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
+        }
     }
 
 }
