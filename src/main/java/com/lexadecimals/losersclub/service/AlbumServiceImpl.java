@@ -42,4 +42,9 @@ public class AlbumServiceImpl implements AlbumService {
                 }).orElseThrow(NoSuchElementException::new);
     }
 
+    @Override
+    public boolean deleteAlbumById(Long id) {
+        Long rowsDeleted = albumRepository.removeById(id);
+        return rowsDeleted > 0;
+    }
 }

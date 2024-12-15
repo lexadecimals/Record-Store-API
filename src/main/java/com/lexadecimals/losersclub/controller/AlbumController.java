@@ -54,4 +54,17 @@ public class AlbumController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteAlbumById(@PathVariable Long id)  {
+            if (albumServiceImpl.deleteAlbumById(id)) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            else {
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("Not Found", "Album with Id of " + id + " not found");
+                return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
+            }
+            //TODO: handle missing path variable
+    }
+
 }

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AlbumRepository extends CrudRepository<Album, Long> {
+    Long removeById(Long id);
 }
