@@ -14,15 +14,18 @@ public class Album {
     private Long id;
     @Column(name = "year_of_release")
     private int yearOfRelease;
-    @Column
+    @Column(nullable = false)
     private String title;
-    @Column
+    @Column(nullable = false)
     private String artist;
     @Column
     private String genre;
     @Column
     private double price;
+    @Column(name = "items_in_stock")
+    private int itemsInStock;
 
     public Album() {
     }
+
 }
