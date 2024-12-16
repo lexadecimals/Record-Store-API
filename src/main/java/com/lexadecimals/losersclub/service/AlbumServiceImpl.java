@@ -4,6 +4,8 @@ import com.lexadecimals.losersclub.model.Album;
 import com.lexadecimals.losersclub.repository.AlbumRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -33,9 +35,9 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Override
     @Transactional
-    public Album updateAlbum(Long id, Album albumToUpdate) {
-        return albumRepository.findById(id)
-                .map(album -> {
+    public Optional<Album> updateAlbum(Long id, Album albumToUpdate) {
+        return albumRepository.findById(id).
+                map(album -> {
                     album.setTitle(albumToUpdate.getTitle());
                     album.setArtist(albumToUpdate.getArtist());
                     album.setGenre(albumToUpdate.getGenre());
@@ -43,13 +45,24 @@ public class AlbumServiceImpl implements AlbumService {
                     album.setYearOfRelease(albumToUpdate.getYearOfRelease());
                     album.setItemsInStock(albumToUpdate.getItemsInStock());
                     return albumRepository.save(album);
-                }).orElseThrow(NoSuchElementException::new);
+                });
     }
 
     @Override
     @Transactional
     public boolean deleteAlbumById(Long id) {
-        Long rowsDeleted = albumRepository.removeById(id);
-        return rowsDeleted > 0;
+        return albumRepository.removeById(id) > 0;
+    }
+
+    @Transactional
+    @Override
+    public Iterable<Album> getAllInStock() {
+        return albumRepository.findByItemsInStockGreaterThan(0);
+    }
+
+    @Transactional
+    @Override
+    public Iterable<Album> getAllInStockByArtist(String artist) {
+        return albumRepository.findByArtistLikeIgnoreCaseAndItemsInStockGreaterThan(artist, 0);
     }
 }

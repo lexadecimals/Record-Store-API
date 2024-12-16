@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.NoSuchElementException;
-
 @RestController
 @RequestMapping("api/v1/albums")
 public class AlbumController {
@@ -33,6 +31,15 @@ public class AlbumController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/stock")
+    public ResponseEntity<Iterable<Album>> checkAllStock(
+            @RequestParam (required = false) String artist
+            ) {
+           Iterable<Album> albumsInStock = artist !=null ? albumServiceImpl.getAllInStockByArtist(artist)
+                   : albumServiceImpl.getAllInStock();
+           return new ResponseEntity<>(albumsInStock, HttpStatus.OK);
+        }
+
     @PostMapping()
     public ResponseEntity<Album> addAlbum(@RequestBody Album album) {
         Album albumReturnedFromDb = albumServiceImpl.addAlbum(album);
@@ -44,14 +51,9 @@ public class AlbumController {
             @PathVariable Long id,
             @RequestBody Album album
             ) {
-        try {
-            Album updatedAlbum = albumServiceImpl.updateAlbum(id, album);
-            return new ResponseEntity<>(updatedAlbum, HttpStatus.OK);
-        } catch (NoSuchElementException e) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Not Found", "Album with id of " + id.toString() + " Not Found!");
-            return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
-        }
+        return albumServiceImpl.updateAlbum(id, album)
+                .map(a -> new ResponseEntity<>(a, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("/{id}")
