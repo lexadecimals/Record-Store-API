@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+
 @RestController
 @RequestMapping("api/v1/albums")
 public class AlbumController {
@@ -31,8 +33,14 @@ public class AlbumController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Iterable<Album>> getAlbumsBySearchTerm(@RequestParam String name) throws UnsupportedEncodingException {
+        String formattedSearchTerm = name.replaceAll("\\+", " ");
+        return new ResponseEntity<>(albumServiceImpl.getAlbumsBySearchTerm(formattedSearchTerm), HttpStatus.OK);
+    }
+
     @GetMapping("/stock")
-    public ResponseEntity<Iterable<Album>> checkAllStock(
+    public ResponseEntity<Iterable<Album>> getAllInStock(
             @RequestParam (required = false) String artist
             ) {
            Iterable<Album> albumsInStock = artist !=null ? albumServiceImpl.getAllInStockByArtist(artist)
