@@ -52,7 +52,7 @@ public class AlbumController {
             @RequestBody Album album
             ) {
         return albumServiceImpl.updateAlbum(id, album)
-                .map(a -> new ResponseEntity<>(a, HttpStatus.OK))
+                .map(a -> new ResponseEntity<>(a, HttpStatus.NO_CONTENT))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
