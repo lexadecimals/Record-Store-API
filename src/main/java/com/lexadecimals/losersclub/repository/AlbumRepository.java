@@ -11,4 +11,5 @@ public interface AlbumRepository extends CrudRepository<Album, Long> {
     Long removeById(Long id);
     Iterable<Album> findByItemsInStockGreaterThan(int stock);
     Iterable<Album> findByArtistLikeIgnoreCaseAndItemsInStockGreaterThan(String artist, int i);
+    Iterable<Album> findByArtistContainsIgnoreCaseOrTitleContainsIgnoreCase(String searchTerm, String searchTerm1);
 }

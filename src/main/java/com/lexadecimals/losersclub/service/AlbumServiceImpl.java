@@ -4,11 +4,8 @@ import com.lexadecimals.losersclub.model.Album;
 import com.lexadecimals.losersclub.repository.AlbumRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -65,4 +62,11 @@ public class AlbumServiceImpl implements AlbumService {
     public Iterable<Album> getAllInStockByArtist(String artist) {
         return albumRepository.findByArtistLikeIgnoreCaseAndItemsInStockGreaterThan(artist, 0);
     }
+
+    @Transactional
+    @Override
+    public Iterable<Album> getAlbumsBySearchTerm(String searchTerm) {
+        return albumRepository.findByArtistContainsIgnoreCaseOrTitleContainsIgnoreCase(searchTerm, searchTerm);
+    }
+
 }

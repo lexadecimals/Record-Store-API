@@ -14,4 +14,7 @@ public interface AlbumService {
     boolean deleteAlbumById(Long id);
     Iterable<Album> getAllInStock();
     Iterable<Album> getAllInStockByArtist(String name);
+
+    @Transactional
+    Iterable<Album> getAlbumsBySearchTerm(String searchTerm);
 }
