@@ -1,5 +1,7 @@
 package com.lexadecimals.losersclub.service;
 
+import com.lexadecimals.losersclub.dto.AlbumDTO;
+import com.lexadecimals.losersclub.dto.DTOMapper;
 import com.lexadecimals.losersclub.model.Album;
 import com.lexadecimals.losersclub.repository.AlbumRepository;
 import jakarta.transaction.Transactional;
@@ -26,7 +28,8 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Override
     @Transactional
-    public Album addAlbum(Album album) {
+    public Album addAlbum(AlbumDTO dto) {
+        Album album = DTOMapper.mapToAlbum(dto);
         return albumRepository.save(album);
     }
 

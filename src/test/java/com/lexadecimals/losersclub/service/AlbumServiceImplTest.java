@@ -1,5 +1,7 @@
 package com.lexadecimals.losersclub.service;
 
+import com.lexadecimals.losersclub.dto.AlbumDTO;
+import com.lexadecimals.losersclub.dto.DTOMapper;
 import com.lexadecimals.losersclub.model.Album;
 import com.lexadecimals.losersclub.repository.AlbumRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -63,7 +65,8 @@ class AlbumServiceImplTest {
     void addAlbumTest() {
         Album album = albums.get(1);
         when(albumRepositoryMock.save(album)).thenReturn(album);
-        Album result = albumServiceImpl.addAlbum(album);
+        AlbumDTO dto = DTOMapper.mapToAlbumDTO(album);
+        Album result = albumServiceImpl.addAlbum(dto);
         assert(result.equals(album));
     }
 }

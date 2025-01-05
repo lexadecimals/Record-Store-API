@@ -1,5 +1,6 @@
 package com.lexadecimals.losersclub.controller;
 
+import com.lexadecimals.losersclub.dto.AlbumDTO;
 import com.lexadecimals.losersclub.model.Album;
 import com.lexadecimals.losersclub.service.AlbumServiceImpl;
 
@@ -49,8 +50,8 @@ public class AlbumController {
         }
 
     @PostMapping()
-    public ResponseEntity<Album> addAlbum(@RequestBody Album album) {
-        Album albumReturnedFromDb = albumServiceImpl.addAlbum(album);
+    public ResponseEntity<Album> addAlbum(@RequestBody AlbumDTO dto) {
+        Album albumReturnedFromDb = albumServiceImpl.addAlbum(dto);
         return new ResponseEntity<>(albumReturnedFromDb, HttpStatus.CREATED);
     }
 
