@@ -9,7 +9,6 @@ public class LosersclubApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LosersclubApplication.class, args);
-
 		AlbumArtDAO.getWebClientResults();
 	}
 

@@ -1,5 +1,6 @@
 package com.lexadecimals.losersclub.dao;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -10,18 +11,19 @@ public class AlbumArtDAO {
     public static void getWebClientResults() {
 
         WebClient client = WebClient.builder().baseUrl(BASE_URL).build();
+
         AlbumResponse res = null;
         try {
             res = client.get()
                     .uri(uriBuilder -> uriBuilder
                             .path("")
-                            .queryParam("term", "chanel+orange+frank+ocean")
+                            .queryParam("term", "the+cure")
                             .queryParam("media", "music")
                             .queryParam("entity", "album")
-                            .queryParam("count", 1)
+                            .queryParam("limit", 3)
                             .build()
                     )
-                    .accept(MediaType.APPLICATION_JSON)
+                    .accept()
                     .retrieve()
                     .bodyToMono(AlbumResponse.class)
                     .block();
@@ -29,7 +31,5 @@ public class AlbumArtDAO {
         } catch(WebClientResponseException e) {
             System.out.println(e.getMessage());
         }
-
-
     }
 }
