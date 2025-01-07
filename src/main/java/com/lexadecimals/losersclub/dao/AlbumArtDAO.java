@@ -1,7 +1,7 @@
 package com.lexadecimals.losersclub.dao;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
@@ -11,8 +11,8 @@ public class AlbumArtDAO {
     public static void getWebClientResults() {
 
         WebClient client = WebClient.builder().baseUrl(BASE_URL).build();
-
-        AlbumResponse res = null;
+        ObjectMapper mapper = new ObjectMapper();
+        String res = null;
         try {
             res = client.get()
                     .uri(uriBuilder -> uriBuilder
@@ -25,11 +25,14 @@ public class AlbumArtDAO {
                     )
                     .accept()
                     .retrieve()
-                    .bodyToMono(AlbumResponse.class)
+                    .bodyToMono(String.class)
                     .block();
-            System.out.println("RES: " + res);
+            AlbumResponse albumResponse = mapper.readValue(res, AlbumResponse.class);
+            System.out.println("RES: " + albumResponse);
         } catch(WebClientResponseException e) {
             System.out.println(e.getMessage());
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 }
