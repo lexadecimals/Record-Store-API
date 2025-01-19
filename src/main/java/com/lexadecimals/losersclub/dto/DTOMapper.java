@@ -12,6 +12,7 @@ public class DTOMapper {
                 .yearOfRelease(dto.getYearOfRelease())
                 .itemsInStock(dto.getItemsInStock())
                 .price(dto.getPrice())
+                .coverArtUrl(dto.getAlbumArtUrl())
                 .build();
     }
 
@@ -23,6 +24,7 @@ public class DTOMapper {
                 .yearOfRelease(album.getYearOfRelease())
                 .itemsInStock(album.getItemsInStock())
                 .price(album.getPrice())
+                .albumArtUrl(album.getCoverArtUrl())
                 .build();
     }
 }
