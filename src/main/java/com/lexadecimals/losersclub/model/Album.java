@@ -18,6 +18,8 @@ public class Album {
     private String title;
     @Column(nullable = false)
     private String artist;
+    @Column(name = "cover_art_url")
+    private String coverArtUrl;
     @Column
     private String genre;
     @Column
@@ -27,5 +29,4 @@ public class Album {
 
     public Album() {
     }
-
 }

@@ -8,31 +8,34 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 public class AlbumArtDAO {
 
     private static final String BASE_URL = "https://itunes.apple.com/search";
-    public static void getWebClientResults() {
+    //return optional?
+    public static AlbumResponse getWebClientResults(String searchTerm) {
 
         WebClient client = WebClient.builder().baseUrl(BASE_URL).build();
         ObjectMapper mapper = new ObjectMapper();
+        AlbumResponse albumResponse;
         String res = null;
         try {
             res = client.get()
                     .uri(uriBuilder -> uriBuilder
                             .path("")
-                            .queryParam("term", "the+cure")
+                            .queryParam("term", "{searchTerm}")
                             .queryParam("media", "music")
                             .queryParam("entity", "album")
-                            .queryParam("limit", 3)
-                            .build()
+                            .queryParam("limit", 1)
+                            .build(searchTerm)
                     )
                     .accept()
                     .retrieve()
                     .bodyToMono(String.class)
                     .block();
-            AlbumResponse albumResponse = mapper.readValue(res, AlbumResponse.class);
-            System.out.println("RES: " + albumResponse);
+             albumResponse = mapper.readValue(res, AlbumResponse.class);
+            return albumResponse;
         } catch(WebClientResponseException e) {
             System.out.println(e.getMessage());
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+        return null;
     }
 }
