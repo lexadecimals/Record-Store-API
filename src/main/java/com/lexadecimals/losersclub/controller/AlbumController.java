@@ -35,8 +35,8 @@ public class AlbumController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Iterable<Album>> getAlbumsBySearchTerm(@RequestParam String name) throws UnsupportedEncodingException {
-        String formattedSearchTerm = name.replaceAll("\\+", " ");
+    public ResponseEntity<Iterable<Album>> getAlbumsBySearchTerm(@RequestParam String term) throws UnsupportedEncodingException {
+        String formattedSearchTerm = term.replaceAll("\\+", " ");
         return new ResponseEntity<>(albumServiceImpl.getAlbumsBySearchTerm(formattedSearchTerm), HttpStatus.OK);
     }
 

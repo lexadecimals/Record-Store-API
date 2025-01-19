@@ -1,5 +1,6 @@
 package com.lexadecimals.losersclub.service;
 
+import com.lexadecimals.losersclub.dao.AlbumDetails;
 import com.lexadecimals.losersclub.dto.AlbumDTO;
 import com.lexadecimals.losersclub.dto.DTOMapper;
 import com.lexadecimals.losersclub.model.Album;
@@ -8,6 +9,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,6 +32,8 @@ public class AlbumServiceImpl implements AlbumService {
     @Transactional
     public Album addAlbum(AlbumDTO dto) {
         Album album = DTOMapper.mapToAlbum(dto);
+        Optional<List<AlbumDetails>> details = Utils.fetchAlbumFromItunes(album.getTitle() + "+" + album.getArtist());
+        details.ifPresent(albumDetails -> album.setCoverArtUrl(albumDetails.getFirst().artworkUrl100()));
         return albumRepository.save(album);
     }
 
