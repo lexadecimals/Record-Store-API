@@ -2,7 +2,6 @@ package com.lexadecimals.losersclub.service;
 
 import com.lexadecimals.losersclub.dto.AlbumDTO;
 import com.lexadecimals.losersclub.model.Album;
-import jakarta.transaction.Transactional;
 
 import java.util.Optional;
 

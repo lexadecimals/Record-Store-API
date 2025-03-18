@@ -4,12 +4,14 @@ import com.lexadecimals.losersclub.dto.AlbumDTO;
 import com.lexadecimals.losersclub.dto.DTOMapper;
 import com.lexadecimals.losersclub.model.Album;
 import com.lexadecimals.losersclub.repository.AlbumRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.ArrayList;
@@ -17,10 +19,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.lexadecimals.losersclub.TestDataUtil.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@DataJpaTest
+@ExtendWith(MockitoExtension.class)
 class AlbumServiceImplTest {
     List<Album> albums = new ArrayList<>();
 
@@ -56,7 +57,7 @@ class AlbumServiceImplTest {
         Optional<Album> album = Optional.of(albums.getFirst());
 
         when(albumRepositoryMock.findById(1L)).thenReturn(album);
-        Optional<Album>  result = albumServiceImpl.getAlbumById(1L);
+        Optional<Album> result = albumServiceImpl.getAlbumById(1L);
         assert(result.equals(album));
     }
 
@@ -64,7 +65,7 @@ class AlbumServiceImplTest {
     @DisplayName("POST /albums adds album to database - returns album")
     void addAlbumTest() {
         Album album = albums.get(1);
-        when(albumRepositoryMock.save(album)).thenReturn(album);
+        when(albumRepositoryMock.save(Mockito.any(Album.class))).thenReturn(album);
         AlbumDTO dto = DTOMapper.mapToAlbumDTO(album);
         Album result = albumServiceImpl.addAlbum(dto);
         assert(result.equals(album));

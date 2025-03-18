@@ -12,6 +12,7 @@ public final class TestDataUtil {
                 .yearOfRelease(1975)
                 .artist("Pink Floyd")
                 .genre("Progressive Rock")
+                .coverArtUrl("")
                 .build();
     }
 
@@ -21,6 +22,7 @@ public final class TestDataUtil {
                 .yearOfRelease(1972)
                 .artist("Nick Drake")
                 .genre("Folk")
+                .coverArtUrl("")
                 .build();
     }
 
@@ -30,6 +32,7 @@ public final class TestDataUtil {
                 .yearOfRelease(1989)
                 .artist("The Cure")
                 .genre("Alternative Rock")
+                .coverArtUrl("")
                 .build();
 
     }
